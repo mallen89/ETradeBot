@@ -7,11 +7,9 @@ public class ETradeBot {
     {
         Configuration config = new Configuration();
         
+        config.initiateBot();
+        
         new MarketBot(config.getClientRequest()).start();
-        
-        config.start();
-        
-        
         
     }
     

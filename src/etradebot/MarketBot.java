@@ -1,6 +1,5 @@
 package etradebot;
 
-import com.etrade.etws.market.AllQuote;
 import com.etrade.etws.market.DetailFlag;
 import com.etrade.etws.sdk.client.ClientRequest;
 import com.etrade.etws.sdk.client.MarketClient;
@@ -28,17 +27,9 @@ public class MarketBot extends Thread
         
     }
     
-    public synchronized void run()
+    //MarketBot's main tasks to run.
+    public void run()
     {
-        System.out.println("Before Wait");
-        
-        try {
-            wait();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MarketBot.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        System.out.println("After Wait");
         for(;;)
         {
             try {
@@ -52,11 +43,28 @@ public class MarketBot extends Thread
             System.out.println(quoteResponse);
             
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(MarketBot.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }  
     }
+    
+    //Gets list of stocks held by the user.
+    public ArrayList<String> getPortfolioSymbols()
+    {
+        ArrayList<String> portfolioSymbols = new ArrayList<String>();
+        
+        return portfolioSymbols;
+    }
+    
+    //Gets list of stocks watched by the user.
+    public ArrayList<String> getWatchListSymbols()
+    {
+        ArrayList<String> watchListSymbols = new ArrayList<String>();
+        
+        return watchListSymbols;
+    }
+    
+    
 }

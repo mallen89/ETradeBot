@@ -1,27 +1,20 @@
 package etradebot;
 
-import com.etrade.etws.account.Account;
-import com.etrade.etws.account.AccountBalanceResponse;
-import com.etrade.etws.account.AccountListResponse;
-import com.etrade.etws.market.*;
 import com.etrade.etws.oauth.sdk.client.IOAuthClient;
 import com.etrade.etws.oauth.sdk.client.OAuthClientImpl;
 import com.etrade.etws.oauth.sdk.common.Token;
-import com.etrade.etws.sdk.client.AccountsClient;
 import com.etrade.etws.sdk.client.ClientRequest;
 import com.etrade.etws.sdk.client.Environment;
-import com.etrade.etws.sdk.client.MarketClient;
 import com.etrade.etws.sdk.common.ETWSException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 import java.awt.Desktop;
 import java.net.URI;
-public class Configuration extends Thread
+
+
+public class Configuration
 {
     public Scanner keyboard = new  Scanner(System.in);
 
@@ -34,13 +27,14 @@ public class Configuration extends Thread
     private String oauth_verify_code = null; // Verification Code
 
     private IOAuthClient ioAuthClient = null; // Client used to authorize bot
-    private ClientRequest clientRequest = null;
+    private ClientRequest clientRequest = new ClientRequest();
     
     private Token requestToken = null;
     private Token accessToken = null;
 
-    public synchronized void run()
+    public void initiateBot()
     {
+        
         ioAuthClient = OAuthClientImpl.getInstance(); // Instantiate IOAUthClient
         clientRequest = new ClientRequest(); // Instantiate ClientRequest
         clientRequest.setEnv(Environment.SANDBOX); // Use sandbox environment
@@ -65,9 +59,7 @@ public class Configuration extends Thread
 
         clientRequest.setToken(oauth_access_token);
         clientRequest.setTokenSecret(oauth_access_token_secret);
-        
-        notifyAll();
-
+            
     }
 
 
