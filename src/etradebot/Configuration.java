@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.awt.Desktop;
 import java.net.URI;
-public class Configuration 
+public class Configuration extends Thread
 {
     public Scanner keyboard = new  Scanner(System.in);
 
@@ -35,12 +35,11 @@ public class Configuration
 
     private IOAuthClient ioAuthClient = null; // Client used to authorize bot
     private ClientRequest clientRequest = null;
-
+    
     private Token requestToken = null;
     private Token accessToken = null;
 
-
-    public void initializeBot()
+    public synchronized void run()
     {
         ioAuthClient = OAuthClientImpl.getInstance(); // Instantiate IOAUthClient
         clientRequest = new ClientRequest(); // Instantiate ClientRequest
@@ -66,6 +65,8 @@ public class Configuration
 
         clientRequest.setToken(oauth_access_token);
         clientRequest.setTokenSecret(oauth_access_token_secret);
+        
+        notifyAll();
 
     }
 
@@ -155,5 +156,10 @@ public class Configuration
         {
             e.printStackTrace();
         }
+    }
+    
+    public ClientRequest getClientRequest()
+    {
+        return clientRequest;
     }
 }
