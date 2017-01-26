@@ -7,12 +7,13 @@ import java.sql.SQLException;
 
 public class SQLConnectionPool extends ObjectPool
 {
-    private String dsn;
-    private String usr;
-    private String pwd;
+    private String serverAddress;
+    private String database;
+    private String userName;
+    private String password;
     
     //Connection Pool constructor.
-    public SQLConnectionPool(String driver, String dsn, String usr, String pwd)
+    public SQLConnectionPool(String driver, String serverAddress, String database, String userName, String password)
     {
         try
         {
@@ -23,16 +24,17 @@ public class SQLConnectionPool extends ObjectPool
             e.printStackTrace();
         }
         
-        this.dsn = dsn;
-        this.usr = usr;
-        this.pwd = pwd;
+        this.serverAddress = serverAddress;
+        this.database = database;
+        this.userName = userName;
+        this.password = password;
     }
     
     Object create()
     {
         try
         {
-            return( DriverManager.getConnection(dsn, usr, pwd));
+            return( DriverManager.getConnection(serverAddress, userName, password));
         }
         catch(SQLException e)
         {

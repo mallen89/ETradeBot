@@ -9,10 +9,8 @@ public class ETradeBot {
     public static void main(String[] args) throws SQLException 
     {
         BotConfiguration config = new BotConfiguration();
-        //SQLConnectionPool pool = new SQLConnectionPool();
         
         config.initiateBot();
-        
         
         new MarketBot(config.getClientRequest()).start();
         
