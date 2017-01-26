@@ -14,10 +14,15 @@ import java.awt.Desktop;
 import java.net.URI;
 
 
-public class Configuration
+public class BotConfiguration
 {
-    public Scanner keyboard = new  Scanner(System.in);
+    
+    
+    public Scanner keyboard = new  Scanner(System.in); // Keyboard input
 
+    
+    /******************************************AUTHENTICATION********************************************************/
+    /****************************************************************************************************************/
     private String oauth_consumer_key = "1775cbfea968fa82cb7ee8c5ca63c160"; // Your consumer key **SANDBOX**
     private String oauth_consumer_secret = "edabae17a8a6b897c540737da3e66b93"; // Your consumer secret **SANDBOX**
     private String oauth_request_token = null; // Request token
@@ -27,10 +32,14 @@ public class Configuration
     private String oauth_verify_code = null; // Verification Code
 
     private IOAuthClient ioAuthClient = null; // Client used to authorize bot
-    private ClientRequest clientRequest = new ClientRequest();
+    private ClientRequest clientRequest = new ClientRequest(); // Client used to interact with Account/Market/Order API
     
     private Token requestToken = null;
     private Token accessToken = null;
+    /****************************************************************************************************************/
+    /****************************************************************************************************************/
+    
+    
 
     public void initiateBot()
     {

@@ -5,7 +5,7 @@ public class ETradeBot {
 
     public static void main(String[] args) 
     {
-        Configuration config = new Configuration();
+        BotConfiguration config = new BotConfiguration();
         
         config.initiateBot();
         
