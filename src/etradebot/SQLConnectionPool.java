@@ -15,6 +15,8 @@ public class SQLConnectionPool extends ObjectPool
     //Connection Pool constructor.
     public SQLConnectionPool(String driver, String serverAddress, String database, String userName, String password)
     {
+       /*
+        
         try
         {
             Class.forName(driver).newInstance();
@@ -24,6 +26,8 @@ public class SQLConnectionPool extends ObjectPool
             e.printStackTrace();
         }
         
+        */
+ 
         this.serverAddress = serverAddress;
         this.database = database;
         this.userName = userName;

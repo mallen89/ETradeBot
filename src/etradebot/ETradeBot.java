@@ -8,11 +8,15 @@ public class ETradeBot {
 
     public static void main(String[] args) throws SQLException 
     {
-        BotConfiguration config = new BotConfiguration();
+        //BotConfiguration config = new BotConfiguration();
+        //SQLConnectionPool newPool = new SQLConnectionPool("test","jdbc:sqlserver://tigerlily.arvixe.com;databaseName=StockBot","test","etradeBot","password");
         
-        config.initiateBot();
+// http://www.javaworld.com/article/2076690/java-concurrency/build-your-own-objectpool-in-java-to-boost-app-speed.html
         
-        new MarketBot(config.getClientRequest()).start();
+        //config.initiateBot();
+        
+        //new MarketBot(config.getClientRequest()).start();
+        
         
     }
     
