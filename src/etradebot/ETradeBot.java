@@ -15,11 +15,9 @@ public class ETradeBot {
         
         Connection connection = DriverManager.getConnection("jdbc:sqlserver://tigerlily.arvixe.com;databaseName=StockBot", "etradeBot", "password");
         
-        
         config.initiateBot();
         
         new MarketBot(config.getClientRequest(), 3, connection).start();
-        
         
     }
     

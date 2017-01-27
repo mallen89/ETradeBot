@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +27,7 @@ public class MarketBot extends Thread
     private int sleepScale = 1;
     private Connection connection;
     private ArrayList<String> testSymbol = new ArrayList<String>();
+    private Timestamp stamp;
 
     //Constructor for independent Market Bot.
     public MarketBot(ClientRequest clientRequest, int sleepScale, Connection connection)
@@ -105,9 +108,11 @@ public class MarketBot extends Thread
     void addToDatabase(AllQuote allQuote) throws SQLException
     {
         Statement statement = connection.createStatement();
+        Date date = new Date();
+        stamp = new Timestamp(date.getTime());
         
-        String query = "INSERT INTO QUOTEDATA (SYMBOLDESC, LASTPRICE, BID, ASK)\n" +
-                        "VALUES('" + allQuote.getSymbolDesc() + "', " + allQuote.getLastTrade() + ", " + allQuote.getBid()+ ", " + allQuote.getAsk() + ");"; 
+        String query = "INSERT INTO QUOTEDATA (SYMBOLDESC, LASTPRICE, BID, ASK, TIME)\n" +
+                        "VALUES('" + allQuote.getSymbolDesc() + "', " + allQuote.getLastTrade() + ", " + allQuote.getBid()+ ", " + allQuote.getAsk() + "," +" '" + stamp + "');"; 
         
         statement.executeUpdate(query);
     }
