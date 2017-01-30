@@ -17,12 +17,13 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MarketController extends Thread
+public class MarketController implements Runnable
 { 
     private MarketClient marketClient;
     private int sleepScale = 1;
     private Connection connection;
     private ArrayList<String> testSymbol = new ArrayList<String>();
+    private ArrayList<AllQuote> currentMarketData = new ArrayList<AllQuote>();
     private Timestamp stamp;
 
     //Constructor for independent Market Controller.
@@ -79,8 +80,11 @@ public class MarketController extends Thread
                 Logger.getLogger(MarketController.class.getName()).log(Level.SEVERE, null, ex);
             }
         
+        currentMarketData = new ArrayList<AllQuote>();
+        
         for(QuoteData quoteData : quoteResponse.getQuoteData())
         {
+            currentMarketData.add(quoteData.getAll());
             addToDatabase(quoteData.getAll());
         }
     }
@@ -108,4 +112,12 @@ public class MarketController extends Thread
                 Logger.getLogger(MarketController.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+    
+    //Allows other parts of the bot to recieve most current data.
+    //** Important for executing trades with tight constraints. **
+    public ArrayList<AllQuote> getCurrentData()
+    {
+        return currentMarketData;
+    }
+    
 }

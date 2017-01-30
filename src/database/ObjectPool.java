@@ -9,7 +9,6 @@ public abstract class ObjectPool
     private Hashtable locked;
     private Hashtable unlocked;
     
-   
     ObjectPool()
     {
         expirationTime = 600000; //10 Minutes

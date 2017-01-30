@@ -12,7 +12,7 @@ public class ETradeBot {
         
         config.startAuthentication();
         
-        new MarketController(config.getClientRequest(), 3, pool.borrowConnection()).start();
+        new Thread(new MarketController(config.getClientRequest(), 3, pool.borrowConnection())).start();
         
     }
     
