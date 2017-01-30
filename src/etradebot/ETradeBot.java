@@ -1,23 +1,18 @@
 package etradebot;
 
-import com.sun.org.apache.xml.internal.utils.ObjectPool;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import database.SQLConnectionPool;
 
 public class ETradeBot {
 
-    public static void main(String[] args) throws SQLException 
+    public static void main(String[] args)
     {
         BotConfiguration config = new BotConfiguration();
-        //SQLConnectionPool dbConnectionPool = new SQLConnectionPool("test","jdbc:sqlserver://tigerlily.arvixe.com;databaseName=StockBot","test","etradeBot","password");
+
+        SQLConnectionPool pool = new SQLConnectionPool("jdbc:sqlserver://tigerlily.arvixe.com;databaseName=StockBot", "etradeBot", "password");
         
-        Connection connection = DriverManager.getConnection("jdbc:sqlserver://tigerlily.arvixe.com;databaseName=StockBot", "etradeBot", "password");
+        config.startAuthentication();
         
-        config.initiateBot();
-        
-        new MarketBot(config.getClientRequest(), 3, connection).start();
+        new MarketController(config.getClientRequest(), 3, pool.borrowConnection()).start();
         
     }
     

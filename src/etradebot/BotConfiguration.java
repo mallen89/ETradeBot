@@ -41,7 +41,7 @@ public class BotConfiguration
     
     
 
-    public void initiateBot()
+    public void startAuthentication()
     {
         
         ioAuthClient = OAuthClientImpl.getInstance(); // Instantiate IOAUthClient
@@ -72,7 +72,7 @@ public class BotConfiguration
     }
 
 
-    public Token obtainRequestToken(ClientRequest newClientRequest)
+    private Token obtainRequestToken(ClientRequest newClientRequest)
     {
         System.out.println("Obtaining Request Token");
 
@@ -94,7 +94,7 @@ public class BotConfiguration
     }
 
 
-    public void obtainVerificationCode(IOAuthClient newIOAuthClient, ClientRequest newClientRequest)
+    private void obtainVerificationCode(IOAuthClient newIOAuthClient, ClientRequest newClientRequest)
     {
         System.out.println("Obtaining Verification Code");
 
@@ -141,7 +141,7 @@ public class BotConfiguration
         while(oauth_verify_code == null);
     }
 
-    public void obtainAccessToken(IOAuthClient newIOAuthClient, ClientRequest newClientRequest)
+    private void obtainAccessToken(IOAuthClient newIOAuthClient, ClientRequest newClientRequest)
     {
         try
         {

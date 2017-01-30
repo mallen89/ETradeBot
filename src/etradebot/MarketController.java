@@ -17,25 +17,20 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MarketBot extends Thread
-{
-    
-    private ClientRequest clientRequest;
+public class MarketController extends Thread
+{ 
     private MarketClient marketClient;
-    private QuoteResponse quoteResponse;
-    private ArrayList<String> tickers = new ArrayList<String>();
     private int sleepScale = 1;
     private Connection connection;
     private ArrayList<String> testSymbol = new ArrayList<String>();
     private Timestamp stamp;
 
-    //Constructor for independent Market Bot.
-    public MarketBot(ClientRequest clientRequest, int sleepScale, Connection connection)
+    //Constructor for independent Market Controller.
+    public MarketController(ClientRequest clientRequest, int sleepScale, Connection connection)
     {
-        this.clientRequest = clientRequest;
         this.sleepScale = sleepScale;
         marketClient = new MarketClient(clientRequest);
-        quoteResponse = new QuoteResponse();
+        this.sleepScale = sleepScale;
         this.connection = connection;
         testSymbol.add("MSFT");
     }
@@ -48,7 +43,7 @@ public class MarketBot extends Thread
             try {
                 getMarketData(testSymbol);
             } catch (SQLException ex) {
-                Logger.getLogger(MarketBot.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MarketController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
            sleepBot();
@@ -56,15 +51,7 @@ public class MarketBot extends Thread
     }
     
     //Gets list of stocks held by the user.
-    public ArrayList<String> getPortfolioSymbols()
-    {
-        ArrayList<String> portfolioSymbols = new ArrayList<String>();
-        
-        return portfolioSymbols;
-    }
-    
-    //Gets an updated list of stocks held by the user.
-    public ArrayList<String> getUpdatedPortfolioSymbols()
+    private ArrayList<String> getPortfolioSymbols()
     {
         ArrayList<String> portfolioSymbols = new ArrayList<String>();
         
@@ -72,15 +59,7 @@ public class MarketBot extends Thread
     }
     
     //Gets list of stocks watched by the user.
-    public ArrayList<String> getWatchListSymbols()
-    {
-        ArrayList<String> watchListSymbols = new ArrayList<String>();
-        
-        return watchListSymbols;
-    }
-    
-    //Gets an updated list of stocks watched by the user.
-    public ArrayList<String> getUpdatedWatchListSymbolds()
+    private ArrayList<String> getWatchListSymbols()
     {
         ArrayList<String> watchListSymbols = new ArrayList<String>();
         
@@ -88,14 +67,16 @@ public class MarketBot extends Thread
     }
     
     //Gets quote data from ETrade.
-    void getMarketData(ArrayList<String> symbols) throws SQLException
+    private void getMarketData(ArrayList<String> symbols) throws SQLException
     {
+        QuoteResponse quoteResponse = new QuoteResponse();
+        
         try {
                 quoteResponse = marketClient.getQuote(symbols, new Boolean(true), DetailFlag.ALL);
             } catch (IOException ex) {
-                Logger.getLogger(MarketBot.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MarketController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ETWSException ex) {
-                Logger.getLogger(MarketBot.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MarketController.class.getName()).log(Level.SEVERE, null, ex);
             }
         
         for(QuoteData quoteData : quoteResponse.getQuoteData())
@@ -105,26 +86,26 @@ public class MarketBot extends Thread
     }
     
     //Adds quote data to database.
-    void addToDatabase(AllQuote allQuote) throws SQLException
+    private void addToDatabase(AllQuote allQuote) throws SQLException
     {
         Statement statement = connection.createStatement();
         Date date = new Date();
         stamp = new Timestamp(date.getTime());
         
         String query = "INSERT INTO QUOTEDATA (SYMBOLDESC, LASTPRICE, BID, ASK, TIME)\n" +
-                        "VALUES('" + allQuote.getSymbolDesc() + "', " + allQuote.getLastTrade() + ", " + allQuote.getBid()+ ", " + allQuote.getAsk() + "," +" '" + stamp + "');"; 
+                        "VALUES('" + allQuote.getSymbolDesc() + "', " + allQuote.getLastTrade() + ", " 
+                + allQuote.getBid()+ ", " + allQuote.getAsk() + "," +" '" + stamp + "');"; 
         
         statement.executeUpdate(query);
     }
     
     //Sleeps bot for (1 * scale) seconds. Default 1 second.
-    void sleepBot()
+    private void sleepBot()
     {
         try {
                 Thread.sleep(1000 * sleepScale);
             } catch (InterruptedException ex) {
-                Logger.getLogger(MarketBot.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MarketController.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
-
 }
